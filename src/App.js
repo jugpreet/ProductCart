@@ -1,36 +1,42 @@
+
+import React from 'react';
 import './App.css';
-import Product from './Components/Product'
-import About from './Components/About'
-import Contact from './Components/Contact'
-import Cart from './Components/Cart'
+
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
-
+import { Suspense } from 'react';
+const Product = React.lazy(() => import('./Components/Product'));
+const About = React.lazy(() => import('./Components/About'));
+const Contact = React.lazy(() => import('./Components/Contact'));
+const Cart = React.lazy(() => import('./Components/Cart'));
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/product">
-          <Product />
-        </Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/cart">
-          <Cart />
-        </Route>
-        <Route path exact="/">
-          <Product />
-        </Route>
-      </Switch>
-    </Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <section>
+        <Router>
+          <Switch>
+            <Route path="/product">
+              <Product />
+            </Route>
+            <Route path="/contact">
+              <Contact />
+            </Route>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/cart">
+              <Cart />
+            </Route>
+            <Route path exact="/">
+              <Product />
+            </Route>
+          </Switch>
+        </Router>
+      </section>
+    </Suspense>
   );
 }
 
